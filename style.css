@@ -1,0 +1,412 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #ffffff;
+    
+    /* Smooth scrolling on mobile */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+}
+
+/* Parallax Layers */
+.parallax-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Will be updated by JavaScript */
+    height: 100vh;
+    pointer-events: none;
+}
+
+/* Background Layer (slowest horizontal parallax) */
+.background-layer {
+    z-index: 1; /* Base layer */
+    background-image: url('./Assets/background.webp');
+    background-size: cover;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+/* Middle Layer (normal horizontal parallax) */
+.middle-layer {
+    z-index: 5; /* Above background layer */
+    background-image: url('./Assets/foreground.webp');
+    background-size: cover;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    pointer-events: auto; /* Allow interactions with elements in this layer */
+}
+
+/* Foreground Layer (fastest horizontal parallax) */
+.foreground-layer {
+    z-index: 10; /* Above middle layer but below interactive elements */
+    background-size: cover;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    /* Add foreground elements here - they'll move fastest */
+}
+
+/* Stop sign positioning */
+.stop-sign {
+    position: absolute;
+    left: 20.3%;
+    bottom: 0.5%;
+    width: 2.1%;
+    height: auto;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 20; /* On top of middle layer */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.cyber-plaza1 {
+    position: absolute;
+    left: 20.3%;
+    bottom: 39%;
+    width: 4.4%;
+    height: auto;
+    pointer-events: auto;
+    opacity: 1;
+    z-index: 25; /* On top of middle layer */
+    transition: transform 0.3s ease, opacity 0.5s ease-in-out, border 0.3s ease;
+    transform: scale(-1, 1);
+    border: 3px solid transparent;
+    border-radius: 8px;
+}
+
+.cyber-plaza1.active {
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 15px #00ffff;
+}
+
+.cyber-plaza1:hover {
+    transform: scale(-1.15, 1.15);
+}
+
+.cyber-plaza2 {
+    position: absolute;
+    left: 29.6%;
+    bottom: 39%;
+    width: 4.4%;
+    height: auto;
+    pointer-events: auto;
+    opacity: 1;
+    z-index: 25; /* On top of middle layer */
+    transition: transform 0.3s ease, opacity 0.5s ease-in-out, border 0.3s ease;
+    border: 3px solid transparent;
+    border-radius: 8px;
+}
+
+.cyber-plaza2.active {
+    border: 3px solid #ff6b00;
+    box-shadow: 0 0 15px #ff6b00;
+}
+
+.cyber-plaza2:hover {
+    transform: scale(1.15);
+}
+
+/* Make the anchor a positioned box so pseudo-element border can wrap it */
+.image-link {
+    position: absolute; /* position is already used on plaza classes, anchors inherit placement */
+    display: inline-block;
+    width: 4.4%;
+    bottom: 39%;
+    pointer-events: auto;
+}
+
+.image-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Specific positions for each plaza anchor to match previous layout */
+.image-link.cyber-plaza1 { left: 20.3%; transform: scale(-1, 1); z-index: 25; }
+.image-link.cyber-plaza2 { left: 29.6%; transform: none; z-index: 25; }
+
+/* Animated border using pseudo-element and border.gif */
+.image-link::before {
+    content: '';
+    position: absolute;
+    inset: -6% -6% -6% -6%; /* slightly larger than image */
+    background-image: url();
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none; /* do not block clicks */
+    opacity: 1;
+}
+
+/* Scale images when expanded */
+.image-link.expanded {
+    transform: scale(1.2);
+    transition: transform 0.5s ease-in-out;
+}
+
+.image-link.cyber-plaza1.expanded {
+    transform: scale(-1.2, 1.2); /* maintain horizontal flip */
+}
+
+/* Modal styles for expanded images */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.image-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+}
+
+.expanded-image {
+    max-width: 150%;
+    max-height: 100%;
+    object-fit: contain;
+    border: 4px solid white;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    width: 70%;
+}
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    transform: scale(1.1);
+}
+
+.stop-sign-btn {
+    position: absolute;
+    left: 21%;
+    bottom: 26%;
+    z-index: 21; /* Above stop sign, on top of middle layer */
+    padding: 1.5em 3em;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    color: transparent;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.2s, color 0.2s;
+}
+.stop-sign-btn:hover {
+    background: transparent;
+    color: transparent;
+    opacity: 1;
+    border: 2px solid transparent;
+    box-shadow: none;
+    outline: none;
+}
+
+.stop-sign.active {
+    opacity: 1;
+}
+
+/* Blue arrow gif */
+.blue-arrow {
+    position: absolute;
+    transform: rotate(90deg);
+    left: 35.7%;
+    bottom: 34%;
+    width: 3%;
+    height: auto;
+    opacity: 0;
+    z-index: 22; /* On top of middle layer */
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.blue-arrow.active {
+    opacity: 1;
+}
+
+/* Start bobbing automatically when arrow is active (visible) */
+.blue-arrow.active {
+    animation: blueArrowBob 1.6s ease-in-out infinite;
+}
+
+/* Bobbing animation: move up from current bottom and return */
+@keyframes blueArrowBob {
+    0% {
+        transform: translateY(0) rotate(90deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(90deg);
+    }
+    100% {
+        transform: translateY(0) rotate(90deg);
+    }
+}
+
+.blue-arrow.bobbing {
+    animation: blueArrowBob 1.6s ease-in-out infinite;
+}
+
+/* Truck composite styling */
+.truck {
+    position: fixed;
+    bottom: 0%;
+    left: 5%;
+    width: 7vw;
+    height: 7vh;
+    z-index: 1000;
+}
+
+.truck-body {
+    position: absolute;
+    left: 0%;
+    bottom: 0%;
+    width: 661px;
+    height: 337px;
+}
+
+.truck-left-wheel {
+    position: absolute;
+    left: 24%;
+    bottom: 1%;
+    width: 187.5px;
+    height: 125px;
+}
+
+.truck-right-wheel {
+    position: absolute;
+    left: 118%;
+    bottom: 1%;
+    width: 187.5px;
+    height: 125px;
+}
+
+/* Fixed truck indicator - stays in viewport */
+.truck {
+    position: fixed;
+    bottom: 20px;
+    left: 0px; /* Fixed positioning */
+    width: calc(591px * 0.6); /* Desktop: ~354px */
+    height: auto;
+    aspect-ratio: 591 / 349;
+    z-index: 1000; /* Above all parallax layers */
+    pointer-events: none;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .truck {
+        width: calc(591px * 0.3); /* Tablet: ~177px */
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .stop-sign {
+        width: 10%;
+        left: 12%;
+        bottom: 8%;
+    }
+    
+    .blue-arrow {
+        left: 18%;
+        bottom: 40%;
+        width: 6%;
+    }
+    
+    .cyber-plaza1.active,
+    .cyber-plaza2.active {
+        border-width: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .truck {
+        width: calc(591px * 0.2); /* Mobile: ~118px */
+    }
+    
+    .stop-sign {
+        width: 12%;
+        left: 10%;
+        bottom: 10%;
+    }
+    
+    .blue-arrow {
+        left: 15%;
+        bottom: 38%;
+        width: 8%;
+    }
+    
+    .cyber-plaza1:hover {
+        transform: scale(-1.1, 1.1);
+    }
+    
+    .cyber-plaza2:hover {
+        transform: scale(1.1);
+    }
+    
+    .cyber-plaza1.active,
+    .cyber-plaza2.active {
+        border-width: 2px;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 320px) {
+    .truck {
+        width: calc(591px * 0.15); /* Extra small: ~89px */
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .stop-sign {
+        width: 15%;
+        left: 8%;
+        bottom: 12%;
+    }
+    
+    .blue-arrow {
+        left: 12%;
+        bottom: 36%;
+        width: 10%;
+    }
+    
+    .cyber-plaza1:hover {
+        transform: scale(-1.08, 1.08);
+    }
+    
+    .cyber-plaza2:hover {
+        transform: scale(1.08);
+    }
+    
+    .cyber-plaza1.active,
+    .cyber-plaza2.active {
+        border-width: 1px;
+    }
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truck Horizontal Parallax Scroller</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Layer (slowest horizontal parallax) -->
+    <div class="parallax-layer background-layer">
+        <!-- Background content moves slowest -->
+    </div>
+    
+    <!-- Middle Layer (normal horizontal parallax) -->
+    <div class="parallax-layer middle-layer">
+        <!-- Stop sign positioning -->
+    <a href="javascript:void(0);" class="image-link cyber-plaza1"><img src="./Assets/individual-images.png" alt="Cyber Plaza 1"></a>
+    <a href="javascript:void(0);" class="image-link cyber-plaza2"><img src="./Assets/individual-images.png" alt="Cyber Plaza 2"></a>
+        <button class="stop-sign-btn"></button>
+                <!-- Blue arrow gif -->
+        <img src="./Assets/right-arrow.png" alt="Blue Arrow" class="blue-arrow">
+    </div>
+    
+    <!-- Foreground/Road Layer (fastest horizontal parallax) -->
+    <div class="parallax-layer foreground-layer">
+                <img src="./Assets/stop-sign-white.png" alt="Stop Sign" class="stop-sign">
+        <!-- Road elements and foreground objects move fastest -->
+    </div>
+    
+    <!-- Fixed truck indicator - stays in viewport -->
+    <div class="truck">
+        <img src="./Assets/truck-nowheels.png" alt="Truck Body" class="truck-body" />
+        <img src="./Assets/Truck-Wheels.png" alt="Truck Left Wheel" class="truck-left-wheel" />
+        <img src="./Assets/Truck-Wheels.png" alt="Truck Right Wheel" class="truck-right-wheel" />
+    </div>
+    
+    
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img id="expanded-image" class="expanded-image">
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
